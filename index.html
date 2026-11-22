@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>家庭财务</title>
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src="assets/echarts.min.js"></script>
+<script type="module" src="assets/unlock.js"></script>
+</head>
+<body>
+<header><div class="top"><div class="brand">家庭财务</div><nav id="pages-nav" hidden aria-label="页面"><a href="#history">历史分析</a><a href="#forecast">未来预测</a><button id="lock" type="button">锁定</button></nav></div></header>
+<main id="gate">
+<section class="card">
+  <h1>解锁家庭财务</h1>
+  <p>本页仅含虚构数据，用于兼容性验证。</p>
+  <form id="unlock" class="toolbar" autocomplete="off">
+    <label>家庭口令<input id="passphrase" type="password" required autocomplete="off"></label>
+    <button id="unlock-button" type="submit">解锁</button>
+  </form>
+  <p id="unlock-error" class="error" role="alert"></p>
+  <noscript>请启用 JavaScript 后重新打开。</noscript>
+</section>
+</main>
+<main id="history-panel" class="history" hidden>
+  <div class="intro"><span class="tag">历史实付</span><h1>历史财务报告</h1><p id="history-coverage"></p></div>
+  <p id="history-error" role="alert" class="error"></p>
+  <section id="history-metrics" class="metrics" aria-label="财务概览"></section>
+  <div class="toolbar" aria-label="历史筛选">
+    <label>月份<select id="history-month"><option value="">全部月份</option></select></label>
+    <label>支出类别<select id="history-category"><option value="">全部支出</option><option value="nonMedical">非医疗</option></select></label>
+    <label class="check"><input id="history-exclude" type="checkbox"> 排除非经常性及非稳定收入</label>
+  </div>
+  <p class="muted" id="history-scope"></p>
+  <div class="grid">
+    <section class="card"><h2>月度收入与支出</h2><p class="sub">人民币元 · 图轴以万元显示</p><div id="history-flow" class="chart"></div></section>
+    <section class="card"><h2>月度净现金流</h2><p class="sub">人民币元 · 已确认收入减已识别支出</p><div id="history-net" class="chart"></div></section>
+    <section class="card"><h2>收入来源</h2><p class="sub">人民币元 · 账本确认类别</p><div id="history-income" class="chart structure"></div></section>
+    <section class="card"><h2>支出结构</h2><p class="sub">人民币元 · 按账本类别汇总</p><div id="history-expense" class="chart structure"></div></section>
+    <section class="card wide"><h2 id="history-trend-title">月度支出趋势</h2><p class="sub">人民币元 · 按实际付款月</p><div id="history-trend" class="chart chart-tall"></div></section>
+  </div>
+  <details open><summary>跨月付款与生活成本</summary><div id="history-allocation"></div></details>
+  <details><summary>月度对账表</summary><div class="table-wrap" id="history-reconciliation"></div></details>
+</main><main id="forecast-panel" class="forecast" hidden>
+  <div class="intro"><span class="tag">情景预测</span><h1>未来财务预测</h1><p>逐月模拟未来 120 个月</p></div>
+  <p id="forecast-error" role="alert" class="error"></p>
+  <section id="forecast-metrics" class="metrics" aria-label="财务概览"></section>
+  <p class="summary-note"><span id="forecast-baseline"></span> 期初现金为估算，应急储备计入期初总额。</p>
+  <p id="forecast-receivables" class="summary-note"></p>
+  <div class="toolbar">
+    <label>生活预算档位<select id="forecast-budget"></select></label>
+    <label>维持期情景<select id="forecast-medical-case"></select></label>
+    <button id="forecast-reset" type="button">恢复初始假设</button>
+  </div>
+  <details open>
+    <summary>收入、住房、社保及日常预算</summary>
+    <div class="fields" id="forecast-main-fields"></div>
+    <p class="muted" id="forecast-transition-note"></p>
+  </details>
+  <div class="grid">
+    <section class="card wide"><h2>未来 120 个月现金余额</h2><p class="sub" id="forecast-forecast-range"></p><div class="chart chart-tall" id="forecast-balance"></div><p class="muted" id="forecast-runway"></p></section>
+  </div>
+  <details>
+    <summary>治疗阶段、应收款及一次性支出</summary>
+    <div class="fields" id="forecast-advanced-fields"></div>
+    <p class="muted" id="forecast-schedule-note"></p>
+  </details>
+  <details>
+    <summary>逐月现金流与储备使用</summary>
+    <p class="muted">人民币元。普通资金优先填补净支出，余额跌破剩余储备时才动用储备。储备动用后不自动补回。余额低于零表示累计资金缺口。</p>
+    <div class="table-wrap" id="forecast-forecast-table"></div>
+  </details>
+</main>
+</body>
+</html>
